@@ -29,29 +29,19 @@ class LinkLogger:
 
         message_link = MessageLinkGenerator.get_message_link(message)
         chat_info = MessageLinkGenerator.get_chat_info(message)
-        text = message.text or message.caption or "",
 
-        log_data = {
-            'timestamp': datetime.now().isoformat(),
-            'message_id': message.message_id,
-            'chat_id': message.chat.id,
-            'chat_type': message.chat.type,
-            'chat_title': message.chat.title,
-            'chat_username': message.chat.username,
-            'user_id': message.from_user.id,
-            'user_name': message.from_user.full_name,
-            'user_username': message.from_user.username,
-            'message_link': message_link,
-            'message_text': text[:200] + '...' if len(text) > 200 else text,
-            'additional_info': additional_info or {}
-        }
+        if additional_info:
+            reason = additional_info.get("reason", "—")
+            if additional_info.get("is_valid"):
+                validation_status = f"[APPROVED: {reason}]"
+            else:
+                validation_status = f"[REJECTED: {reason}]"
 
         log_message = (
-            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] "
-            f"Ссылка: {log_data['message_link']} | "
-            f"Чат: {log_data['chat_title'] or chat_info['username'] or 'Приватный'} | "
-            f"Пользователь: {log_data['user_name']}"
+            f"{validation_status} "
+            f"Ссылка: {message_link} | "
+            f"Чат: {chat_info.get('title') or chat_info.get('username') or 'Приватный'} | "
+            f"Пользователь: {message.from_user.full_name}"
         )
 
         self.logger.info(log_message)
-        return log_data
