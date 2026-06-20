@@ -15,9 +15,9 @@ link_logger = LinkLogger()
 slack_webhook_url = env('SLACK_WEBHOOK_URL', default=None)
 slack_logger = SlackLogger(slack_webhook_url)
 
-allowed_topics = [2918475, 1410514]
-chat_id = -1001529097328
-topic_names = {2918475: "Баги с беты", 1410514: "Репорт багов"}
+allowed_topics = [СЮДА АЙДИ ТОПИКОВ]
+chat_id = СЮДА АЙДИ ОСНОВНОГО ЧАТА
+topic_names = {ТОПИК1: "НАЗВАНИЕ ТОПИКА", ТОПИК2: "НАЗВАНИЕ ТОПИКА"}
 
 
 @router.message(
